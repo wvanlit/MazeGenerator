@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Helpers\Helpers.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Svg" Version="3.4.2" />
+    </ItemGroup>
+
 </Project>

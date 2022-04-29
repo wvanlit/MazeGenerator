@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Drawing;
+using System.Text;
+using System.Xml;
 using Helpers;
 
 namespace Mazes;
@@ -77,58 +79,18 @@ public class Grid
 
     public void SetSeed(int seed) => Rng = new Random(seed);
 
-    public override string ToString()
+    public void ToPicture(string filename, int cellSize)
     {
-        const string cellBody = "   ";
-        const string corner = "+";
+        var imgWidth = cellSize * Columns;
+        var imgHeight = cellSize * Rows;
+
+        var background = Color.White;
+        var walls = Color.Black;
+
+        var svgDocument = new XmlDocument();
+
         
-        const string wallVertical = "|";
-        const string wallVerticalEmpty = " ";
-        
-        const string wallHorizontal = "---";
-        const string wallHorizontalEmpty = "   ";
-        
-        var builder = new StringBuilder();
-
-        builder.Append(corner);
-        
-        foreach (var cell in GetRow(0))
-        {
-            var northWall = cell.HasLinkedNeighbor(Direction.North) ? wallHorizontalEmpty : wallHorizontal;
-            builder.Append(northWall + corner);
-        }
-        
-        builder.AppendLine("");
-
-        foreach (var row in AllRows)
-        {
-            var top = "";
-            var bottom = "+";
-
-            var isFirstColumn = true;
-            
-            foreach (var cell in row)
-            {
-                if (isFirstColumn)
-                {
-                    var westWall = cell.HasLinkedNeighbor(Direction.West) ? wallVerticalEmpty : wallVertical;
-                    top += westWall;
-                    isFirstColumn = false;
-                }
-                
-                var eastWall = cell.HasLinkedNeighbor(Direction.East) ? wallVerticalEmpty : wallVertical;
-                top += cellBody + eastWall;
-
-                var southWall = cell.HasLinkedNeighbor(Direction.South) ? wallHorizontalEmpty : wallHorizontal;
-                bottom += southWall + corner;
-            }
-
-            builder.AppendLine(top);
-            builder.AppendLine(bottom);
-        }
-
-        return builder.ToString();
     }
-
+    
     #endregion
 }
